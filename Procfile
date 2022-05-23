@@ -1,1 +1,1 @@
-userbot: python -m userbot
+thanospros: python -m thanospros
