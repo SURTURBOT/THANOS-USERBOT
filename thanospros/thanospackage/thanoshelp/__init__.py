@@ -1,5 +1,6 @@
 from .aiohttp_helper import *
 from .convert import *
+from .FastTelethon import *
 from .fonts import *
 from .fun import *
 from .funct import *
