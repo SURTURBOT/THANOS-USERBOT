@@ -20,7 +20,7 @@ from typing import (
     Union,
 )
 
-from telethon import TelegramClient, thanospackage.thanoshelp, utils
+from telethon import TelegramClient, thanoshelp, utils
 from telethon.crypto import AuthKey
 from telethon.network import MTProtoSender
 from telethon.tl.functions.auth import (
