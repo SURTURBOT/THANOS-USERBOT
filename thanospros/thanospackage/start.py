@@ -5,8 +5,8 @@ from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.functions.channels import LeaveChannelRequest as leave
 from telethon.tl.types import InputMessagesFilterDocument
 
-from userbot import bot
-from userbot.Config import Config
+from thanospros import bot
+from thanospros.Config import Config
 
 from .utils import load_abuse, load_addons, load_module, start_assistant, start_spam
 
@@ -57,7 +57,7 @@ async def hekp():
     except BaseException:
         pass
     try:
-        await bot(leave("@thanos_userbots"))
+        await bot(leave("@thanos_thanospross"))
     except BaseException:
         pass
 
@@ -65,7 +65,7 @@ async def hekp():
 async def module():
     import glob
 
-    path = "userbot/plugins/*.py"
+    path = "thanospros/thanospackage/*.py"
     files = glob.glob(path)
     for name in files:
         with open(name) as f:
@@ -74,14 +74,14 @@ async def module():
             load_module(shortname.replace(".py", ""))
 
 
-assistant = os.environ.get("ASSISTANT", None)
+rishabhai = os.environ.get("ASSISTANT", None)
 
 
 async def assistants():
-    if assistant == "ON":
+    if rishabhai == "ON":
         import glob
 
-        path = "userbot/plugins/assistant/*.py"
+        path = "thanospros/thanospackage/rishabhai/*.py"
         files = glob.glob(path)
         for name in files:
             with open(name) as f:
@@ -99,7 +99,7 @@ async def addons():
     if addon == "ON":
         import glob
 
-        path = "userbot/plugins/Xtra_Plugin/*.py"
+        path = "thanospros/thanospackage/xtra_package/*.py"
         files = glob.glob(path)
         for name in files:
             with open(name) as f:
@@ -120,7 +120,7 @@ async def abuses():
     if abuse == "ON":
         import glob
 
-        path = "userbot/plugins/Abuse/*.py"
+        path = "thanospros/thanospackage/Abuse/*.py"
         files = glob.glob(path)
         for name in files:
             with open(name) as f:
@@ -138,7 +138,7 @@ async def spams():
     if spam == "ON":
         import glob
 
-        path = "userbot/plugins/Spam/*.py"
+        path = "thanospros/thanospackage/Spam/*.py"
         files = glob.glob(path)
         for name in files:
             with open(name) as f:
@@ -168,7 +168,7 @@ async def install():
         for ixo in total_doxx:
             mxo = documentss[ixo].id
             downloaded_file_name = await bot.download_media(
-                await bot.get_messages(chat, ids=mxo), "userbot/plugins/"
+                await bot.get_messages(chat, ids=mxo), "thanospros/thanospackage/"
             )
             if "(" not in downloaded_file_name:
                 path1 = Path(downloaded_file_name)

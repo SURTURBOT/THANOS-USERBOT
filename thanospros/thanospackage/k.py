@@ -82,7 +82,7 @@ G_DRIVE_CLIENT_SECRET = os.environ.get("G_DRIVE_CLIENT_SECRET", None)
 G_DRIVE_AUTH_TOKEN_DATA = os.environ.get("G_DRIVE_AUTH_TOKEN_DATA", None)
 GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", None)
 TMP_DOWNLOAD_DIRECTORY = os.environ.get(
-    "TMP_DOWNLOAD_DIRECTORY", "./userbot/DOWNLOADS/"
+    "TMP_DOWNLOAD_DIRECTORY", "./thanospros/DOWNLOADS/"
 )
 # Put your ppe vars here if you are using local hosting
 PLACEHOLDER = None

@@ -132,7 +132,7 @@ if ENV:
         # Send .get_id in any group to fill this value.
         SUDO_HANDLER = os.environ.get("SUDO_HANDLER", r"\,")
         TMP_DOWNLOAD_DIRECTORY = os.environ.get(
-            "TMP_DOWNLOAD_DIRECTORY", "./userbot/DOWNLOADS/"
+            "TMP_DOWNLOAD_DIRECTORY", "./thanospros/DOWNLOADS/"
         )
         TELEGRAPH_SHORT_NAME = (
             os.environ.get("TELEGRAPH_SHORT_NAME", None) or "THANOSBOT"
@@ -151,7 +151,7 @@ if ENV:
         # DO NOT EDIT BELOW THIS LINE IF YOU DO NOT KNOW WHAT YOU ARE DOING
         # TG API limit. A message can have maximum 4096 characters!
         MAX_MESSAGE_SIZE_LIMIT = 4096
-        # set blacklist_chats where you do not want userbot's features
+        # set blacklist_chats where you do not want thanospros's features
         UB_BLACK_LIST_CHAT = set(
             int(x) for x in os.environ.get("UB_BLACK_LIST_CHAT", "").split()
         )

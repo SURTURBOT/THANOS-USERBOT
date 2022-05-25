@@ -13,7 +13,7 @@ from telethon import TelegramClient
 from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sessions import StringSession
 
-from userbot.Config import Config
+from thanospros.Config import Config
 from var import Var
 
 DEVS = ["2143095429"]
@@ -149,5 +149,5 @@ ISAFK = False
 AFKREASON = None
 SUDO_LIST = {}
 
-from userbot.cmdhelp import CmdHelp
-from userbot.helpers import *
+from thanospros.cmdhelp import CmdHelp
+from thanospros.thanospackage.thanoshelp import *

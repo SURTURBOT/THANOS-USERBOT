@@ -17,15 +17,15 @@ from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from userbot import CMD_LIST, LOAD_PLUG, LOGS, THANOSBOT, SUDO_LIST, THANOSBOT, bot
-from userbot.Config import Config
-from userbot.helpers.exceptions import CancelProcess
+from thanospros import CMD_LIST, LOAD_PLUG, LOGS, THANOSBOT, SUDO_LIST, THANOSBOT, bot
+from thanospros.Config import Config
+from thanospros.thanospackage.thanoshelp.exceptions import CancelProcess
 from var import Var
 
 bothandler = Config.BOT_HANDLER
 ENV = bool(os.environ.get("ENV", False))
 if ENV:
-    from userbot.Config import Config
+    from thanospros.Config import Config
 else:
     if os.path.exists("exampleconfig.py"):
         from exampleconfig import Development as Config
@@ -35,19 +35,19 @@ def load_module(shortname):
     if shortname.startswith("__"):
         pass
     elif shortname.endswith("_"):
-        import userbot.utils
+        import thanospros.utils
 
-        path = Path(f"userbot/plugins/{shortname}.py")
-        name = "userbot.plugins.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/{shortname}.py")
+        name = "thanospros.thanospackage.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         LOGS.info("THANOSBOT ~ " + shortname)
     else:
-        import userbot.utils
+        import thanospros.utils
 
-        path = Path(f"userbot/plugins/{shortname}.py")
-        name = "userbot.plugins.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/{shortname}.py")
+        name = "thanospros.thanospackage.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = THANOSBOT
@@ -61,7 +61,7 @@ def load_module(shortname):
         mod.command = command
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
-        sys.modules["uniborg.util"] = userbot.utils
+        sys.modules["uniborg.util"] = thanospros.utils
         mod.Config = Config
         mod.edit_or_reply = edit_or_reply
         mod.delete_THANOSBOT = delete_THANOSBOT
@@ -70,16 +70,16 @@ def load_module(shortname):
         mod.THANOSBOT_cmd = admin_cmd
         mod.sudo_cmd = sudo_cmd
         # support for PRO-THANOSBOT originals
-        sys.modules["THANOSBOT.utils"] = userbot.utils
-        sys.modules["THANOSBOT"] = userbot
-        sys.modules["THANOSBOT.utils"] = userbot.utils
-        sys.modules["THANOSBOT"] = userbot
+        sys.modules["THANOSBOT.utils"] = thanospros.utils
+        sys.modules["THANOSBOT"] = thanospros
+        sys.modules["THANOSBOT.utils"] = thanospros.utils
+        sys.modules["THANOSBOT"] = thanospros
         # support for paperplaneextended
-        sys.modules["userbot.events"] = userbot.utils
+        sys.modules["thanospros.events"] = thanospros.utils
         spec.loader.exec_module(mod)
 
         # for imports
-        sys.modules["userbot.plugins." + shortname] = mod
+        sys.modules["thanospros.thanospackage." + shortname] = mod
         LOGS.info("💥⚡Շђคภ๏ร~קг๏⚡💥 ~ " + shortname)
 
 
@@ -87,21 +87,21 @@ def start_assistant(shortname):
     if shortname.startswith("__"):
         pass
     elif shortname.endswith("_"):
-        path = Path(f"userbot/plugins/assistant/{shortname}.py")
-        name = "userbot.plugins.assistant.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/rishabhai/{shortname}.py")
+        name = "thanospros.thanospackage.rishabhai.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         print("Starting thanos Assistant Bot.")
         print("thanos Assistant Sucessfully imported " + shortname)
     else:
-        path = Path(f"userbot/plugins/assistant/{shortname}.py")
-        name = "userbot.plugins.assistant.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/rishabhai/{shortname}.py")
+        name = "thanospros.thanospackage.rishabhai.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.tgbot = bot.tgbot
         spec.loader.exec_module(mod)
-        sys.modules["userbot.plugins.assistant" + shortname] = mod
+        sys.modules["thanospros.thanospackage.rishabhai" + shortname] = mod
         print("[💥тнαησѕ Assistant⚡ 5.0] ~ HAS ~ ☄Installed☄ ~" + shortname)
 
 
@@ -113,8 +113,8 @@ def start_spam(shortname):
         import sys
         from pathlib import Path
 
-        path = Path(f"userbot/plugins/Spam/{shortname}.py")
-        name = "userbot.plugins.Spam.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/thanosspam/{shortname}.py")
+        name = "thanospros.thanospackage.thanosspam.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
@@ -125,8 +125,8 @@ def start_spam(shortname):
         import sys
         from pathlib import Path
 
-        path = Path(f"userbot/plugins/Spam/{shortname}.py")
-        name = "userbot.plugins.Spam.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/thanosspam/{shortname}.py")
+        name = "thanospros.thanospackage.thanosspam.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.tgbot = bot.tgbot
@@ -143,10 +143,10 @@ def load_addons(shortname):
         import sys
         from pathlib import Path
 
-        import userbot.utils
+        import thanospros.utils
 
-        path = Path(f"userbot/plugins/Xtra_Plugin/{shortname}.py")
-        name = "userbot.plugins.Xtra_Plugin.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/xtra_package/{shortname}.py")
+        name = "thanospros.thanospackage.xtra_package.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
@@ -156,10 +156,10 @@ def load_addons(shortname):
         import sys
         from pathlib import Path
 
-        import userbot.utils
+        import thanospros.utils
 
-        path = Path(f"userbot/plugins/Xtra_Plugin/{shortname}.py")
-        name = "userbot.plugins.Xtra_Plugin.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/xtra_package/{shortname}.py")
+        name = "thanospros.thanospackage.xtra_package.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.THANOSBOT = THANOSBOT
@@ -181,12 +181,12 @@ def load_addons(shortname):
         mod.command = command
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
-        sys.modules["uniborg.util"] = userbot.utils
+        sys.modules["uniborg.util"] = thanospros.utils
         # support for PRO-THANOSBOT originals
-        sys.modules["THANOSBOT.utils"] = userbot.utils
-        sys.modules["userbot"] = userbot
+        sys.modules["THANOSBOT.utils"] = thanospros.utils
+        sys.modules["thanospros"] = thanospros
         # support for paperplaneextended
-        sys.modules["userbot.events"] = userbot.utils
+        sys.modules["thanospros.events"] = thanospros.utils
         spec.loader.exec_module(mod)
         # for imports
         sys.modules["Xtra_Plugin." + shortname] = mod
@@ -201,10 +201,10 @@ def load_abuse(shortname):
         import sys
         from pathlib import Path
 
-        import userbot.utils
+        import thanospros.utils
 
-        path = Path(f"userbot/plugins/Abuse/{shortname}.py")
-        name = "userbot.plugins.Abuse.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/thanosgali/{shortname}.py")
+        name = "thanospros.thanospackage.thanosgali.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
@@ -214,10 +214,10 @@ def load_abuse(shortname):
         import sys
         from pathlib import Path
 
-        import userbot.utils
+        import thanospros.utils
 
-        path = Path(f"userbot/plugins/Abuse/{shortname}.py")
-        name = "userbot.plugins.Abuse.{}".format(shortname)
+        path = Path(f"thanospros/thanospackage/thanosgali/{shortname}.py")
+        name = "thanospros.thanospackage.thanosgali.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = THANOSBOT
@@ -229,7 +229,7 @@ def load_abuse(shortname):
         mod.command = command
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
-        sys.modules["uniborg.util"] = userbot.utils
+        sys.modules["uniborg.util"] = thanospros.utils
         mod.Config = Config
         mod.borg = bot
         mod.THANOS = bot
@@ -238,9 +238,9 @@ def load_abuse(shortname):
         mod.eod = delete_THANOSBOT
         mod.admin_cmd = admin_cmd
         mod.sudo_cmd = sudo_cmd
-        sys.modules["THANOSBOT.utils"] = userbot.utils
-        sys.modules["userbot"] = userbot
-        sys.modules["userbot.events"] = userbot.utils
+        sys.modules["THANOSBOT.utils"] = thanospros.utils
+        sys.modules["thanospros"] = thanospros
+        sys.modules["thanospros.events"] = thanospros.utils
         spec.loader.exec_module(mod)
         # for imports
         sys.modules["Abuse." + shortname] = mod
@@ -273,7 +273,7 @@ def remove_plugin(shortname):
             del LOAD_PLUG[shortname]
 
         except BaseException:
-            name = f"userbot.plugins.{shortname}"
+            name = f"thanospros.thanospackage.{shortname}"
 
             for i in reversed(range(len(bot._event_builders))):
                 ev, cb = bot._event_builders[i]
@@ -651,7 +651,7 @@ def errors_handler(func):
             date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
             new = {"error": str(sys.exc_info()[1]), "date": datetime.datetime.now()}
 
-            text = "**USERBOT CRASH REPORT**\n\n"
+            text = "**thanospros CRASH REPORT**\n\n"
 
             link = "[here](https://t.me/thanosceo)"
             text += "If you wanna you can report it"
@@ -664,7 +664,7 @@ def errors_handler(func):
             ftext += "\nyou may not report this error if you've"
             ftext += "\nany confidential data here, no one will see your data\n\n"
 
-            ftext += "--------BEGIN THANOS USERBOT TRACEBACK LOG--------"
+            ftext += "--------BEGIN THANOS thanospros TRACEBACK LOG--------"
             ftext += "\nDate: " + date
             ftext += "\nGroup ID: " + str(errors.chat_id)
             ftext += "\nSender ID: " + str(errors.sender_id)
@@ -674,7 +674,7 @@ def errors_handler(func):
             ftext += str(traceback.format_exc())
             ftext += "\n\nError text:\n"
             ftext += str(sys.exc_info()[1])
-            ftext += "\n\n--------END THANOS USERBOT TRACEBACK LOG--------"
+            ftext += "\n\n--------END THANOS thanospros TRACEBACK LOG--------"
 
             command = 'git log --pretty=format:"%an: %s" -5'
 

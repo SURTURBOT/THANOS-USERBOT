@@ -6,8 +6,8 @@ import sys
 import telethon.utils
 from telethon import Button, TelegramClient, custom, events
 
-from userbot.Config import Config
-from userbot.start import abuses, addons, assistants, hekp, install, module, spams
+from thanospros.Config import Config
+from thanospros.start import abuses, addons, assistants, hekp, install, module, spams
 
 from . import LOGS, THANOSBOTversion, bot
 
@@ -105,7 +105,7 @@ async def killer():
             await asyncio.sleep(1)
             await bot.send_message("@BotFather", botname)
             await asyncio.sleep(1)
-            await bot.send_file("@BotFather", "userbot/resources/pics/main.jpg")
+            await bot.send_file("@BotFather", "thanospros/thanospackage/thanosresource/pics/main.jpg")
             await asyncio.sleep(2)
         except Exception as e:
             print(e)
