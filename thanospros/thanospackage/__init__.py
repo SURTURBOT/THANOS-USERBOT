@@ -1,153 +1,86 @@
-import asyncio
-import logging
-import os
-import sys
-import time
-from distutils.util import strtobool as sb
+import datetime
 
-import heroku3
-import pylast
-from pySmartDL import SmartDL
-from requests import get
-from telethon import TelegramClient
-from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
-from telethon.sessions import StringSession
+from telethon import version
 
-from thanospros.Config import Config
-from var import Var
-
-DEVS = ["2143095429"]
-
-ENV = os.environ.get("ENV", False)
-
-THANOSBOT_ID = ["2143095429"]
-
-LOGGER = True
-StartTime = time.time()
-THANOSBOTversion = "v1.0"
-botversion = "v1.0"
-from logging import DEBUG, INFO, basicConfig, getLogger
-
-from .k import *
-
-CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
-if CONSOLE_LOGGER_VERBOSE:
-    basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        level=DEBUG,
-    )
-else:
-    basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=INFO
-    )
-
-LOGS = getLogger(__name__)
-
-
-if Config.THANOS_STRING:
-    session = StringSession(str(Config.THANOS_STRING))
-else:
-    session = "THANOSBOT"
-
-try:
-    THANOSBOT = TelegramClient(
-        session=session,
-        api_id=Config.APP_ID,
-        api_hash=Config.API_HASH,
-        connection=ConnectionTcpAbridged,
-        auto_reconnect=True,
-        connection_retries=None,
-    )
-except Exception as e:
-    LOGS.error(f"THANOS_STRING - {e}")
-    sys.exit()
-
-
-PRO = TelegramClient(
-    session="THANOSBOT",
-    api_id=Config.APP_ID,
-    api_hash=Config.API_HASH,
-    connection=ConnectionTcpAbridged,
-    auto_reconnect=True,
-    connection_retries=None,
-).start(bot_token=Config.BOT_TOKEN)
-
-
-bot = kbot = THANOSBOT
-tbot = THANOSBOT
-
-
-if not Config.API_HASH:
-    LOGS.warning("Please fill var API HASH to continue.")
-    quit(1)
-
-
-if not Config.APP_ID:
-    LOGS.warning("Please fill var APP ID to continue.")
-    quit(1)
-
-
-if not Config.BOT_TOKEN:
-    LOGS.warning("Please fill var BOT TOKEN to continue.")
-    quit(1)
-
-
-if not Config.BOT_USERNAME:
-    LOGS.warning("Please fill var BOT USERNAME to continue.")
-    quit(1)
-
-
-if not Config.DB_URI:
-    LOGS.warning("Please fill var DATABASE URL to continue.")
-    quit(1)
-
-
-if not Config.THANOS_STRING:
-    LOGS.warning("Please fill var THANOSBOT SESSION to continue.")
-    quit(1)
-
-
-if not Config.LOGGER_ID:
-    LOGS.warning("Please fill var LOGGER ID to continue.")
-    quit(1)
-
-try:
-    if Config.HEROKU_API_KEY is not None or Config.HEROKU_APP_NAME is not None:
-        HEROKU_APP = heroku3.from_key(Config.HEROKU_API_KEY).apps()[
-            Config.HEROKU_APP_NAME
-        ]
-    else:
-        HEROKU_APP_NAME = None
-except:
-    HEROKU_APP = None
-
-if not os.path.exists("bin"):
-    os.mkdir("bin")
-
-binaries = {
-    "https://raw.githubusercontent.com/yshalsager/megadown/master/megadown": "bin/megadown",
-    "https://raw.githubusercontent.com/yshalsager/cmrudl.py/master/cmrudl.py": "bin/cmrudl",
-}
-
-for binary, path in binaries.items():
-    downloader = SmartDL(binary, path, progress_bar=False)
-    downloader.start()
-    os.chmod(path, 0o755)
-
-CMD_LIST = {}
-CMD_HELP = {}
-CMD_HELP_BOT = {}
-BRAIN_CHECKER = []
-INT_PLUG = ""
-LOAD_PLUG = {}
-COUNT_MSG = 0
-USERS = {}
-COUNT_PM = {}
-LASTMSG = {}
-CMD_HELP = {}
-ISAFK = False
-AFKREASON = None
-SUDO_LIST = {}
-
+from thanospros import *
 from thanospros.cmdhelp import CmdHelp
-from thanospros.thanospackage.thanoshelp import *
+from thanospros.Config import Config
+from thanospros.thanospackage.sql_helper.globals import addgvar, delgvar, gvarstatus
+from thanospros.utils import *
+
+THANOSBOT_USER = bot.me.first_name
+THANOSBOT = bot.uid
+THANOSBOT_mention = f"[{THANOSBOT_USER}](tg://user?id={THANOSBOT})"
+
+gban_pic = "./thanospros/thanospackage/thanosresource/pics/gban.mp4"
+main_pic = "./thanospros/thanospackage/thanosresource/pics/main.jpg"
+core_pic = "./thanospros/thanospackage/thanosresource/pics/core.jpg"
+chup_pic = "./thanospros/thanospackage/thanosresource/pics/chup.mp4"
+bsdk_pic = "./thanospros/thanospackage/thanosresource/pics/bsdk.jpg"
+bsdkwale_pic = "./thanospros/thanospackage/thanosresource/pics/bsdk_wale.jpg"
+chutiya_pic = "./thanospros/thanospackage/thanosresource/pics/chutiya.jpg"
+
+perf = "[ THANOS-PRO ]"
+
+
+DEVLIST = ["2143095429"]
+
+
+async def get_user_id(ids):
+    if str(ids).isdigit():
+        userid = int(ids)
+    else:
+        userid = (await bot.get_entity(ids)).id
+    return userid
+
+
+l1 = Config.HANDLER
+l2 = Config.SUDO_HANDLER
+sudos = Config.SUDO_USERS
+if sudos:
+    is_sudo = "True"
+else:
+    is_sudo = "False"
+
+abus = Config.ABUSE
+if abus == "ON":
+    abuse_m = "Enabled"
+else:
+    abuse_m = "Disabled"
+
+START_TIME = datetime.datetime.now()
+uptime = f"{str(datetime.datetime.now() - START_TIME).split('.')[0]}"
+my_channel = Config.YOUR_CHANNEL or "thanos_userbots"
+my_group = Config.YOUR_GROUP or "thanosbot_chats"
+if "@" in my_channel:
+    my_channel = my_channel.replace("@", "")
+if "@" in my_group:
+    my_group = my_group.replace("@", "")
+
+
+mybot = Config.BOT_USERNAME
+if mybot.startswith("@"):
+    botname = mybot
+else:
+    botname = f"@{mybot}"
+
+chnl_link = "https://t.me/thanos_userbots"
+THANOSBOT_channel = f"[THANOS-PRO]({chnl_link})"
+grp_link = "https://t.me/thanos_userbots"
+THANOSBOT_grp = f"[THANOS Group]({grp_link})"
+
+WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attractive.**
+  {mention} :  To mention the user
+  {title} : To get chat name in message
+  {count} : To get group members
+  {first} : To use user first name
+  {last} : To use user last name
+  {fullname} : To use user full name
+  {userid} : To use userid
+  {username} : To use user username
+  {my_first} : To use my first name
+  {my_fullname} : To use my full name
+  {my_last} : To use my last name
+  {my_mention} : To mention myself
+  {my_username} : To use my username
+"""
